@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import api from "../../services/api";
-
 import { Row, Col, Table } from "react-bootstrap";
 
 function ContactsView() {
   const [contacts, setContacts] = useState([]);
 
   useEffect(() => {
-    api.get("/contacts").then((response) => {
+    api.get("/product").then((response) => {
       setContacts(response.data);
     });
   }, []);
@@ -20,18 +19,18 @@ function ContactsView() {
         <Table striped bordered hover>
           <thead>
             <tr>
-              <th>#</th>
+              <th>Id</th>
               <th>Name</th>
-              <th>Email</th>
+              <th>Descrição</th>
             </tr>
           </thead>
           <tbody>
             {contacts.map((row, index) => {
               return (
                 <tr key={index}>
-                  <td>{row.idContact}</td>
+                  <td>{row.id}</td>
                   <td>{row.name}</td>
-                  <td>{row.email}</td>
+                  <td>{row.description}</td>
                 </tr>
               );
             })}
