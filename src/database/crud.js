@@ -8,7 +8,6 @@ async function Connect() {
     //connection with db
     const mysql = require("mysql2/promise");
     const connection = await mysql.createConnection("mysql://root:@localhost:3306/bella_face")
-    
     //global connection
     global.connection = connection;
     
