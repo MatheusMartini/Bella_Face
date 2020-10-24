@@ -2,24 +2,20 @@ import React from "react";
 import { Switch, Route } from "react-router-dom";
 
 import Home from "../../../Pages/Home";
-import Contacts from "../../../Pages/Contacts";
-import State from "../../../Pages/States";
-import ContactsView from "../../../Pages/ContactsView";
+import Login from "../../../Pages/Login";
+import Carrinho from "../../../Pages/Carrinho";
 
 function Section() {
   return (
     <Switch>
       <Route exact path="/">
+        <Login />
+      </Route>
+      <Route path="/home">
         <Home />
       </Route>
-      <Route exact path="/contacts">
-        <Contacts />
-      </Route>
-      <Route exact path="/state">
-        <State />
-      </Route>
-      <Route exact path="/contacts/view">
-        <ContactsView />
+      <Route path="/carrinho">
+        <Carrinho />
       </Route>
     </Switch>
   );
