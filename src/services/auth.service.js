@@ -1,16 +1,14 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:3306/bella_face";
 
 const login = (user, pass) => {
   return axios
-    .post(API_URL + "/login", {
-      user,
-      pass,
+    .post("/login", {
+      user: user,
+      password: pass,
     })
     .then((response) => {
       console.log(response)
-      return response;
     });
 };
 
