@@ -1,10 +1,8 @@
-import axios from "axios";
-
-
+import Api from "./api"
 const login = (user, pass) => {
-  return axios
+  return Api
     .post("/login", {
-      user: user,
+      login: user,
       password: pass,
     })
     .then((response) => {
@@ -12,16 +10,6 @@ const login = (user, pass) => {
     });
 };
 
-const logout = () => {
-  localStorage.removeItem("id");
-};
-
-const getCurrentUser = () => {
-  return JSON.parse(localStorage.getItem("id"));
-};
-
 export default {
   login,
-  logout,
-  getCurrentUser,
 };
