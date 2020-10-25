@@ -1,6 +1,20 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## passos para rodar local:
+
+### clonar repositório 
+Dowload zip ou clone
+
+### entrar na pasta
+Diretório que ela esta + cd Bella_face
+
+### `npm install`
+Instalar dependencias
+
+### `npm start`
+Rodar projeto
 
 ## Available Scripts
+
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 In the project directory, you can run:
 
