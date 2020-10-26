@@ -1,46 +1,33 @@
 import React, { useEffect, useState} from "react";
 import { Container, Row, Col, Card, Spinner, CardColumns, ListGroup, Button} from "react-bootstrap";
 
-import Api from "../../services/api";
 import Navbar from "../../assets/components/Navbar";
+import AuthService from "../../services/auth.service";
 
 function Home() {
 
-  const[dados, setDados] = useState([]);
+  const[produtos, setProdutos] = useState([]);
   const[quantidade, setQuantidade] = useState();
 
-  const[pedidos, setPedidos] = useState();
-  const[qtdPedidos, setQtdPedidos] = useState();
+  const[pedidos, setPedidos] = useState([]);
+  const[qtdPedidos, setQtdPedidos] = useState(1);
 
   useEffect(() => {
-    const token = localStorage.getItem("token")
-    Api
-    .get('/produtos', {headers:{"Authorization": `Bearer ${token}`}} )
-    .then(response => {
-      setDados(response.data.product)
-      setQuantidade(response.data.quantity);
-      console.log(response.data.product)
+    AuthService.produtos()
+    .then(res =>{
+      setProdutos(res.product)
+      setQuantidade(res.quantity)
     })
-    .catch(error => {
-      console.log(error);
-    })
-  },dados);
+  }, produtos);
 
   useEffect(()=>{
-    const token = localStorage.getItem("token")
-    Api.get("/pedidos",{headers:{"Authorization": `Bearer ${token}`}})
-    .then(response =>{
-      setPedidos(response.data.ordder)
-      setQtdPedidos(response.data.ordder.length)
-      console.log(response.data.ordder)
-    })
-    .catch(error => {
-      console.log(error);
+    AuthService.pedidos()
+    .then(res =>{
+      setPedidos(res.ordder)
     })
   }, pedidos)
-
+  
   return (
-
     <>
     <Navbar/>
     <Container className="mt-5 mb-5">
@@ -48,7 +35,7 @@ function Home() {
         <Col sm={8}>
           <Row>
             {quantidade > 0 ? (
-              dados.map((row, index) => {
+              produtos.map((row, index) => {
                 return (
                   <Col sm={4} key={row.id_product}>
                     <CardColumns>
@@ -83,6 +70,7 @@ function Home() {
           <Row>
             <Col>
               {qtdPedidos > 0 && (pedidos.map((row, index) => {
+                console.log(row)
                 return(
                   <Container>
                   <ListGroup.Item>Carrinho de compras</ListGroup.Item>        
