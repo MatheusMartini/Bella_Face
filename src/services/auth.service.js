@@ -6,7 +6,7 @@ const login = (user, pass) => {
       password: pass,
     })
     .then((response) => {
-      console.log(response)
+      localStorage.setItem("token", response.data.token)
     });
 };
 
