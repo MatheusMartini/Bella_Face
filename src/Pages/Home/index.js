@@ -1,29 +1,46 @@
 import React, { useEffect, useState} from "react";
-import { Container, Row, Col, Card, Spinner, CardColumns, ListGroup, ListGroupItem, Modal, Button, InputGroup, FormControl } from "react-bootstrap";
+import { Container, Row, Col, Card, Spinner, CardColumns, ListGroup, Button} from "react-bootstrap";
 
 import Api from "../../services/api";
 import Navbar from "../../assets/components/Navbar";
-import { useHistory } from "react-router-dom";
 
 function Home() {
 
   const[dados, setDados] = useState([]);
   const[quantidade, setQuantidade] = useState();
 
+  const[pedidos, setPedidos] = useState();
+  const[qtdPedidos, setQtdPedidos] = useState();
+
   useEffect(() => {
+    const token = localStorage.getItem("token")
     Api
-      .get('/produtos')
-      .then(response => {
-        setDados(response.data.product)
-        setQuantidade(response.data.quantity);
-        console.log(response.data)
-      })
-      .catch(error => {
-        console.log(error);
-      })
-  }, []);
+    .get('/produtos', {headers:{"Authorization": `Bearer ${token}`}} )
+    .then(response => {
+      setDados(response.data.product)
+      setQuantidade(response.data.quantity);
+      console.log(response.data.product)
+    })
+    .catch(error => {
+      console.log(error);
+    })
+  },dados);
+
+  useEffect(()=>{
+    const token = localStorage.getItem("token")
+    Api.get("/pedidos",{headers:{"Authorization": `Bearer ${token}`}})
+    .then(response =>{
+      setPedidos(response.data.ordder)
+      setQtdPedidos(response.data.ordder.length)
+      console.log(response.data.ordder)
+    })
+    .catch(error => {
+      console.log(error);
+    })
+  }, pedidos)
 
   return (
+
     <>
     <Navbar/>
     <Container className="mt-5 mb-5">
@@ -39,12 +56,12 @@ function Home() {
                         <Card.Body>
                           <Card.Title>{row.name}</Card.Title>
                           <Card.Subtitle className="mb-2 text-muted">
-                            {row.price}
+                            Preço: R${row.price}
                           </Card.Subtitle>
                           <Card.Text>
                             {row.description}
                           </Card.Text>
-                          <Card.Link><ConfirmarPedido nomeProduto={row.name} preco={row.price}/></Card.Link>
+                          <Button onClick={() =>{}}>Adicionar ao carrinho</Button>
                         </Card.Body>
                       </Card>
                     </CardColumns>      
@@ -61,55 +78,27 @@ function Home() {
           )}
           </Row>   
         </Col>
+       
+        <Col Col sm={4}>
+          <Row>
+            <Col>
+              {qtdPedidos > 0 && (pedidos.map((row, index) => {
+                return(
+                  <Container>
+                  <ListGroup.Item>Carrinho de compras</ListGroup.Item>        
+                    <ListGroup variant="flush">
+
+                      <ListGroup.Item>preço:{row.total_price}</ListGroup.Item>
+                    </ListGroup> 
+                  </Container>
+                );
+              })
+              )}
+            </Col>
+          </Row>   
+        </Col>
       </Row>
     </Container>
-    </>
-  );
-}
-
-function ConfirmarPedido({nomeProduto,precoProduto}) {
- let history = useHistory();
- 
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-  const [quantidadeProduto, setQuantidadeProduto] = useState(1);
-
-
-  function handleClick() {
-    const data = {
-      preco: quantidadeProduto*precoProduto,
-      nome: nomeProduto
-    }
-    history.push("/carrinho",{data});
-  }
-
-  console.log(quantidadeProduto)
-  return (
-    <>
-      <Button variant="primary" onClick={handleShow}>
-        Adicionar
-      </Button>
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>{nomeProduto}</Modal.Title>
-        </Modal.Header>
-        <form>
-          <label>
-            quantidade do produto: 
-            <input min="1"type="number" name="name" value={quantidadeProduto} onChange={(event)=>setQuantidadeProduto(event.target.value)} />
-          </label>
-        </form>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            voltar
-          </Button>
-          <Button variant="primary" onClick={handleClick}>
-            Adicionar ao carrinho
-          </Button>
-        </Modal.Footer>
-      </Modal>
     </>
   );
 }
