@@ -1,4 +1,5 @@
 import Api from "./api"
+
 const login = (user, pass) => {
   return Api
     .post("/login", {
@@ -10,6 +11,30 @@ const login = (user, pass) => {
     });
 };
 
+const produtos = () =>{
+  const token = localStorage.getItem("token")
+  return Api.get('/produtos', {headers:{"Authorization": `Bearer ${token}`}} )
+  .then(response => {
+    return response.data
+  })
+  .catch(error => {
+    return error
+  })
+}
+
+const pedidos = () =>{
+  const token = localStorage.getItem("token")
+  return Api.get("/pedidos",{headers:{"Authorization": `Bearer ${token}`}})
+  .then(response => {
+    return response.data
+  })
+  .catch(error => {
+    return error
+  })
+}
+
 export default {
   login,
+  produtos,
+  pedidos
 };
