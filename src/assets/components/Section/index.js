@@ -3,7 +3,6 @@ import { Switch, Route } from "react-router-dom";
 
 import Home from "../../../Pages/Home";
 import Login from "../../../Pages/Login";
-import Carrinho from "../../../Pages/Carrinho";
 
 function Section() {
   return (
@@ -13,9 +12,6 @@ function Section() {
       </Route>
       <Route path="/home">
         <Home />
-      </Route>
-      <Route path="/carrinho">
-        <Carrinho />
       </Route>
     </Switch>
   );
