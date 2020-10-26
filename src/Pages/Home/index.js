@@ -32,18 +32,16 @@ function Home() {
   useEffect(()=>{})
 
   const inserirProduto = (order_order_id, product_id_product, quantity, unit_price) => {
-    return api.post("/pedidos/inpedido",{
+    return api.post("/pedidos/insertpedido",{
       order_order_id: order_order_id,
       product_id_product: product_id_product,
       quantity: quantity,
       unit_price: unit_price,
       total_price: quantity*unit_price
       })
-      .then((response) => {});
+      .then((response) => {console.log(response)});
   };
   
-  
-
   return (
     <>
     <Navbar/>
