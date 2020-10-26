@@ -12,9 +12,6 @@ function CustomNavBar() {
             Home
           </Link>
         </Nav.Link>
-        <Nav.Link>
-          <Link to="/carrinho">Carrinho de compras</Link>
-        </Nav.Link>
       </Nav>
     </Navbar>
   );
